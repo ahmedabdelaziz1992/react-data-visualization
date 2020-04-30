@@ -1,16 +1,6 @@
 import React from 'react'
 import { useDrag } from 'react-dnd'
 
-const style1 = {
-    border: '1px dashed gray',
-    backgroundColor: 'white',
-    padding: '0.5rem 1rem',
-    marginRight: '1.5rem',
-    marginBottom: '1.5rem',
-    cursor: 'move',
-    float: 'left',
-}
-
 export default function Column({ name, type }) {
     const [{ isDragging }, drag] = useDrag({
       item: { name, type },
@@ -26,8 +16,8 @@ export default function Column({ name, type }) {
     })
     const opacity = isDragging ? 0.4 : 1
     return (
-      <div ref={drag} style={{ ...style1, opacity }}>
-        {name}
-      </div>
+      <li className="columns-list__item" ref={drag} style={{ opacity }}>
+        <span>{name}</span>
+      </li>
     )
 }

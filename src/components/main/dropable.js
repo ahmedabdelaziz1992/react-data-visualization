@@ -2,19 +2,6 @@
 import React from 'react'
 import { useDrop } from 'react-dnd'
 
-const style2 = {
-    height: '12rem',
-    width: '12rem',
-    marginRight: '1.5rem',
-    marginBottom: '1.5rem',
-    color: 'white',
-    padding: '1rem',
-    textAlign: 'center',
-    fontSize: '1rem',
-    lineHeight: 'normal',
-    float: 'left',
-  }
-
 export default function Dropable({accept, tags, setTags}) {
     const [{ canDrop, isOver }, drop] = useDrop({
         accept,
@@ -28,17 +15,24 @@ export default function Dropable({accept, tags, setTags}) {
         }),
       })
       const isActive = canDrop && isOver
-      let backgroundColor = '#222'
+      let backgroundColor = '#fff'
       if (isActive) {
         backgroundColor = 'darkgreen'
       } else if (canDrop) {
         backgroundColor = 'darkkhaki'
       }
 
+      function handleClick() {
+        setTags(null)
+      }
+
       return (
-        <div ref={drop} style={{ ...style2, backgroundColor }}>
-          {tags? Array.isArray(tags)? tags.map((tag, index) => <div key={index.toString()}>{tag.name}</div>) : <div>{tags.name}</div> : null}
-          {isActive ? 'Release to drop' : 'Drag a box here'}
+        <div className="drop-area" ref={drop} style={{ backgroundColor }}>
+          <div className="drop-list">
+            {tags? Array.isArray(tags)? tags.map((tag, index) => <div className="drop-item" key={index.toString()}>{tag.name}</div>) : <div className="drop-item">{tags.name}</div> : null}
+          </div>
+          <span className="drop-info">{isActive ? 'Release to drop' : 'Drag a column here'}</span>
+          <button className="clear-drop" onClick={handleClick}>Clear</button>
         </div>
       )
 }

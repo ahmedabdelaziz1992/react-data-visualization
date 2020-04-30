@@ -16,10 +16,12 @@ import Main from './components/main/main'
     // }
 
     return (
-        <div className="row">
-            <Sidebar />
-            <Main/>
-            <Chart/>
+        <div className="container-fluid">
+          <div className="row">
+              <Sidebar />
+              <Main/>
+              <Chart/>
+          </div>
         </div>
     )
   }

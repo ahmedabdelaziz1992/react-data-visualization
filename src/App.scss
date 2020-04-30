@@ -19,16 +19,13 @@
   './scss/base/helpers';
 
 // 4. Layout-related sections
-// @import
-//   './scss/layout/header',
-//   './scss/layout/mission',
-//   './scss/layout/footer';
+@import
+  './scss/layout/App';
 
 // 5. Components
-// @import
-//   './scss/components/banner',
-//   './scss/components/form',
-//   './scss/components/button';
+@import
+  './scss/components/sidebar',
+  './scss/components/drop-area';
 
 // 6. Page-specific styles
 // @import

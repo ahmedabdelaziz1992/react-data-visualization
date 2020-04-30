@@ -9,8 +9,6 @@ export default function Measures() {
     const [measures, setMeasures] = useState([]);
 
     return (
-        <div>
-            <Dropable accept={ItemTypes.MEASURE} tags={measures} setTags={(item) => { setMeasures(uniqBy([...measures, item], 'name') ) }} />
-        </div>
+            <Dropable accept={ItemTypes.MEASURE} tags={measures} setTags={(item) => { item? setMeasures(uniqBy([...measures, item], 'name')) : setMeasures([]) }} />
     )
 }

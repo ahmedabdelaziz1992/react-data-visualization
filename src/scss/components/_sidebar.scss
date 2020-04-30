@@ -1,0 +1,17 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the slider component.
+// -----------------------------------------------------------------------------
+
+aside {
+    height: 100%;
+    padding: 20px 10px;
+    border-right: 1px solid $mid-grey;
+    .columns-list {
+        .columns-list__item {
+            padding: 10px;
+            border-bottom: 1px solid $light-grey;
+            color: $text-color;
+            cursor: 'move';
+        }
+    }
+}
