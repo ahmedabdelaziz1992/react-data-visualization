@@ -1,0 +1,56 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the header of the site/application.
+// -----------------------------------------------------------------------------
+
+header {
+    padding: 10px 0;
+    background-color: $brand-color;
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .search {
+            position: relative;
+
+            label {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 5px;
+            }
+
+            input {
+                background-color: #444;
+                padding: 5px 5px 5px 30px;
+                border: 0;
+                border-radius: 3px;
+            }
+        }
+    }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+    header {
+        nav {
+            height: 48px;
+        }
+    }
+}
+
+/*Animation Keyframes
+====================*/
+
+@keyframes fade-in-right {
+    from {
+        opacity: 0;
+        transform: translateX(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

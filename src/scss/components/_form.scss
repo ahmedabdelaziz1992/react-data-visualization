@@ -1,0 +1,78 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the form component.
+// -----------------------------------------------------------------------------
+
+.form {
+    padding: 45px 0 75px;
+
+    .form-field {
+        position: relative;
+        margin-bottom: 60px;
+
+        &.required {
+            .form-control {
+                border-color: $red;
+            }
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 0;
+            width: 70px;
+            height: 2px;
+            background-color: $brand-color;
+        }
+
+        label {
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin-bottom: 15px;
+            transition: 0.3s ease;
+        }
+
+        .form-control {
+            border: 0;
+            border-bottom: 1px solid #c4c4c6;
+            border-radius: 0;
+
+            &:focus+label {
+                top: -30px;
+            }
+
+            &:not(textarea) {
+                height: 30px;
+
+                
+            }
+        }
+
+        .form-validation {
+            color: $red;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+    }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+    .form {
+
+        .row {
+            [class*=col-] {
+                &:last-child {
+                    .form-field {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+
+        .form-field {
+            // margin-bottom: 60px;
+        }
+    }
+}

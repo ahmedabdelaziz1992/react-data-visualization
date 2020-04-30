@@ -1,0 +1,24 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the button component.
+// -----------------------------------------------------------------------------
+
+.slanted {
+    transform: skewX(-15deg);
+}
+
+.slanted-content {
+    display: inline-block;
+    transform: skewX(15deg);
+}
+
+.btn-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn {
+    padding: 15px 40px;
+    border-radius: 0;
+}
