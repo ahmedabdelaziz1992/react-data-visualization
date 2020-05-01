@@ -1,14 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-import uniqBy from 'lodash/uniqBy'
-
+import uniq from 'lodash/uniq'
 import ItemTypes from '../../itemtypes'
 import Dropable from './dropable'
 
-export default function Measures() {
-    const [measures, setMeasures] = useState([]);
-
+export default function Measures({measures, setMeasures}) {
     return (
-            <Dropable accept={ItemTypes.MEASURE} tags={measures} setTags={(item) => { item? setMeasures(uniqBy([...measures, item], 'name')) : setMeasures([]) }} />
+        <Dropable accept={ItemTypes.MEASURE} tags={measures} setTags={(item) => { item? setMeasures(uniq([...measures, item])) : setMeasures([]) }} />
     )
 }

@@ -1,27 +1,22 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 
 import Sidebar from './components/sidebar/sidebar'
 import Main from './components/main/main'
 
-  const Chart = () => {
-      return null
-  }
-  
+export default function Container() {
+  const [dropResult, setDropResult] = useState({measures: [], dimension: ""});
 
-  export default function Container() {
-    
+  useEffect(() => {
+      console.log('dropResult', dropResult);
+  }, [dropResult]);
 
-    // const fetchData = () => {
-    //     console.log('fetched');
-    // }
-
-    return (
-        <div className="container-fluid">
-          <div className="row">
-              <Sidebar />
-              <Main/>
-              <Chart/>
-          </div>
+  return (
+      <div className="container-fluid">
+        <div className="row">
+            <Sidebar dropResult={dropResult} setDropResult={setDropResult}/>
+            <Main setDropResult={setDropResult}/>
+            {/* <Chart/> */}
         </div>
-    )
-  }
+      </div>
+  )
+}

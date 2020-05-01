@@ -11,7 +11,24 @@ aside {
             padding: 10px;
             border-bottom: 1px solid $light-grey;
             color: $text-color;
+            margin-bottom: 10px;
+            box-shadow: rgba( 0, 0, 0, 0.3 ) 0px 0px 1px 1px;
             cursor: 'move';
+            position: relative;
+
+            .draggable-indicator {
+                width: 16px;
+                height: 16px;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                right: 10px;
+                margin: auto;
+
+                rect {
+                    fill: #ccc;
+                }
+            }
         }
     }
 }

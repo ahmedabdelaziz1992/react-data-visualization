@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import ItemTypes from '../../itemtypes'
 import Dropable from './dropable'
 
-export default function Dimension() {
-    const [dimension, setDimension] = useState(null);
+export default function Dimension({dimension, setDimension}) {
     return (
-            <Dropable accept={ItemTypes.DIMENSION} tags={dimension} setTags={setDimension} />
+        <Dropable accept={ItemTypes.DIMENSION} tags={dimension} setTags={setDimension} />
     )
 }
