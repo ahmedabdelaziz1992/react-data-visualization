@@ -4,29 +4,13 @@ import Dimension from './dimension'
 import Measures from './measures'
 import Chart from './chart'
 
-function createChartData(responseArr) {
-    console.log('responseArr', responseArr);
-    let chartDataArr = [];
-    responseArr.map((item, i) => {
-        let itemArr = [];
-        item.values.map((value, j) => {
-            return itemArr.push({[responseArr[i].name]: responseArr[i].values[j] })
-        })
-        return chartDataArr.push(itemArr);
-    });
-
-    let finalChartArr = [];
-
-    for(let i = 0; i < chartDataArr[0].length; i++) {
-        let modified = {}
-        for(let j = 0; j < chartDataArr.length; j++) {
-            modified = {...modified, ...chartDataArr[j][i]}
-        }
-        finalChartArr.push(modified)
-    }
-
-    console.log('finalChartArr', finalChartArr);
-    return finalChartArr;
+function createChartData(raw) {
+    const chunks = raw.reduce((all, item) => [...all, item.values.map(v => ({[item.name]: v}))], []);
+    const chartData = chunks[0].reduce((all, _, index) => {
+        const dataPoint = chunks.reduce((all, _, nestedIndex) => ({...all, ...chunks[nestedIndex][index]}), {});
+            return [...all, dataPoint];
+        }, []);
+    return chartData;
 }
 
 async function fetchUrl({setChartData, setLoading, dropResult}) {
@@ -39,11 +23,18 @@ async function fetchUrl({setChartData, setLoading, dropResult}) {
         body: JSON.stringify(dropResult)
     }
     setLoading(true);
-    const response = await fetch('https://plotter-task.herokuapp.com/data', fetchData);
-    const json = await response.json();
-
-    setChartData(createChartData(json));
-    setLoading(false);
+    fetch('https://plotter-task.herokuapp.com/data', fetchData)
+    .then(res => {
+        if(res.ok) {
+            return res.json();
+        }
+        throw res.json();
+    })
+    .then(data => {
+        setChartData(createChartData(data));
+    })
+    .catch(console.error)
+    .finally(() => setLoading(false));
 }
 
 export default function Main() {

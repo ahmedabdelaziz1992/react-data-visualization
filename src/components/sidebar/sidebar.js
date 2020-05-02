@@ -1,28 +1,29 @@
 import React, {useState, useEffect} from 'react'
 
 import Column from './column'
-// import ItemTypes from '../../itemtypes'
+
+function fetchUrl({setData, setLoading}) {
+    setLoading(true);
+    fetch('https://plotter-task.herokuapp.com/columns')
+    .then(res => {
+        if(res.ok) {
+            return res.json();
+        }
+        throw res.json();
+    })
+    .then(data => {
+        setData({columns: data});
+    })
+    .catch(console.error)
+    .finally(() => setLoading(false));
+}
 
 export default function Sidebar() {
     const [data, setData] = useState({columns: []});
-    // const [error, setError] = useState({});
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        async function fetchUrl() {
-            const response = await fetch('https://plotter-task.herokuapp.com/columns');
-            const json = await response.json();
-            // json
-            // .then(res => setData({columns: res}))
-            // .catch((res) => setError(res));
-
-            // return response;
-
-            setData({columns: json});
-            setLoading(false);
-        }
-
-        fetchUrl();
+        fetchUrl({setData, setLoading});
     }, []);
 
     return (
