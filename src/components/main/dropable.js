@@ -5,7 +5,7 @@ import { useDrop } from 'react-dnd'
 export default function Dropable({accept, tags, setTags}) {
     const [{ canDrop, isOver }, drop] = useDrop({
         accept,
-        drop: (item, monitor) => {
+        drop: (item) => {
             setTags(item.name);
             return item;
         },

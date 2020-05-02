@@ -4,84 +4,73 @@ import Dimension from './dimension'
 import Measures from './measures'
 import Chart from './chart'
 
-export default function Main({dropResult, setDropResult}) {
+function createChartData(responseArr) {
+    console.log('responseArr', responseArr);
+    let chartDataArr = [];
+    responseArr.map((item, i) => {
+        let itemArr = [];
+        item.values.map((value, j) => {
+            return itemArr.push({[responseArr[i].name]: responseArr[i].values[j] })
+        })
+        return chartDataArr.push(itemArr);
+    });
+
+    let finalChartArr = [];
+
+    for(let i = 0; i < chartDataArr[0].length; i++) {
+        let modified = {}
+        for(let j = 0; j < chartDataArr.length; j++) {
+            modified = {...modified, ...chartDataArr[j][i]}
+        }
+        finalChartArr.push(modified)
+    }
+
+    console.log('finalChartArr', finalChartArr);
+    return finalChartArr;
+}
+
+async function fetchUrl({setChartData, setLoading, dropResult}) {
+    const fetchData = {
+        method: 'POST',
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dropResult)
+    }
+    setLoading(true);
+    const response = await fetch('https://plotter-task.herokuapp.com/data', fetchData);
+    const json = await response.json();
+
+    setChartData(createChartData(json));
+    setLoading(false);
+}
+
+export default function Main() {
     const [dimension, setDimension] = useState("");
     const [measures, setMeasures] = useState([]);
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [chartData, setChartData] = useState(null);
-
-    useEffect(() => {
-        setDropResult({measures: measures, dimension: dimension});
-    }, [dimension, measures, setDropResult]);
     
     useEffect(() => {
-        console.log('dropResult', dropResult);
-        if(dropResult && dropResult.measures.length > 0 && dropResult.dimension !== "") {
-            async function fetchUrl() {
-                const fetchData = {
-                    method: 'POST',
-                    headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dropResult)
-                }
-                const response = await fetch('https://plotter-task.herokuapp.com/data', fetchData);
-                const json = await response.json();
-    
-                setData(json);
-                setLoading(false);
-                console.log('postData', json);
-            }
-
-            fetchUrl();
+        if(measures.length && dimension) {
+            fetchUrl({setChartData, setLoading, dropResult:{measures, dimension}});
         }
-
-    }, [dropResult]);
-
-    useEffect(() => {
-        if(dropResult && Array.isArray(data) && loading === false) {
-            setChartData(createChartData(data));
-            console.log('chartData', createChartData(data));
-        }
-    }, [dropResult, data, loading]);
-
-    function createChartData(responseArr) {
-        let chartDataArr = [];
-        responseArr.map((item, i) => {
-            let itemArr = [];
-            item.values.map((value, j) => {
-                return itemArr.push({[data[i].name]: data[i].values[j] })
-            })
-            return chartDataArr.push(itemArr);
-        });
-
-        let finalChartArr = [];
-
-        for(let i = 0; i < chartDataArr[0].length; i++) {
-            let modified = {}
-            for(let j = 0; j < chartDataArr.length; j++) {
-                modified = {...modified, ...chartDataArr[j][i]}
-            }
-            finalChartArr.push(modified)
-        }
-
-        return finalChartArr;
-    }
+    }, [measures, dimension]);
 
     return (
         <div className="col-md-10">
             <div className="container">
                 <div className="row">
                     <div className="col-12 d-flex justify-content-center align-items-center">
-                        <label>Dimension:</label> <Dimension dimension={dimension} setDimension={setDimension} setDropResult={setDropResult}/>
+                        <label>Dimension:</label> <Dimension dimension={dimension} setDimension={setDimension}/>
                     </div>
                     <div className="col-12 d-flex justify-content-center align-items-center">
-                        <label>Measures:</label> <Measures measures={measures} setMeasures={setMeasures} setDropResult={setDropResult}/>
+                        <label>Measures:</label> <Measures measures={measures} setMeasures={setMeasures}/>
                     </div>
                     <div className="col-12 d-flex justify-content-center align-items-center">
-                        { chartData? console.log(data) || <Chart dropResult={dropResult} chartData={chartData}/> : <p>Drag columns in order to show Chart</p> }
+                        { loading && "Loading..." }
+                        { !loading && chartData? <Chart dropResult={{measures, dimension}} chartData={chartData}/> : <p>Drag columns in order to show Chart</p> }
                     </div>
                 </div>
             </div>
