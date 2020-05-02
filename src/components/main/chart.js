@@ -1,5 +1,5 @@
 import React from 'react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 export default function Chart({chartData, dropResult}) {
 
@@ -12,14 +12,13 @@ export default function Chart({chartData, dropResult}) {
           height={300}
           data={chartData}
           margin={{
-            top: 5, right: 30, left: 20, bottom: 5,
+            top: 5, right: 30, left: 20, bottom: 20,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey={dropResult.dimension} />
-          <YAxis label={{ value: dropResult.measures[0], angle: -90, position: 'left' }} />
+          <XAxis dataKey={dropResult.dimension} label={{ value: dropResult.dimension, position: 'bottom' }} />
+          <YAxis label={{ value: dropResult.measures.join(', '), angle: -90, position: 'left' }} />
           <Tooltip />
-          <Legend />
           {
             dropResult.measures.map((measure, index) => {
               return  <Line key={measure} type="monotone" dataKey={measure} stroke={colors[index]} /> ;
